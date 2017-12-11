@@ -35,6 +35,7 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="aaI-5H-oeA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Dgb-gh-HgD"/>
                             <constraint firstItem="mAQ-SF-Q15" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="J1L-Zp-1r4"/>
@@ -45,12 +46,21 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aaI-5H-oeA" secondAttribute="trailing" constant="24" id="zJr-bB-OnX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="J7J-3v-yOI" appends="YES" id="oWL-Be-wWg"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="indicatorView" destination="mAQ-SF-Q15" id="kN2-cd-3gN"/>
+                        <outlet property="tap" destination="J7J-3v-yOI" id="HM8-bQ-mC3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="J7J-3v-yOI">
+                    <connections>
+                        <action selector="didTap:" destination="BYZ-38-t0r" id="oz3-Xj-29E"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
         </scene>

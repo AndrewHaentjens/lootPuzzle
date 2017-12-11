@@ -39,8 +39,12 @@ class IndicatorView: UIView {
         self.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(Double.pi)) / 180.0)
     }
     
-    func endRotating() {
+    func getRotationInDegrees() -> Float {
         
+        let radians: Float = atan2f(Float(transform.b), Float(transform.a))
+        let degrees: Float = radians * Float(180 / Double.pi)
+        
+        return degrees
     }
     
 }

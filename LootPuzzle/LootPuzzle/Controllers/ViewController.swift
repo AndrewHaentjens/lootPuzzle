@@ -10,22 +10,21 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet var tap: UITapGestureRecognizer!
     @IBOutlet weak var indicatorView: IndicatorView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        rotate(indicatorView)
+        
     }
     
-    private func rotate(_ targetView: UIView, duration: Double = 1.0) {
-        UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: {
-            targetView.transform = targetView.transform.rotated(by: CGFloat(Double.pi))
-        }) { finished in
-            self.rotate(targetView, duration: duration)
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        indicatorView.rotate360Degrees()
     }
     
-
+    @IBAction func didTap(_ sender: UITapGestureRecognizer) {
+        print("Degrees on tap: \(indicatorView.getCurrentRotation())")
+    }
+    
 }
