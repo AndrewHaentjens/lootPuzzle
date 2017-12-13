@@ -2,7 +2,7 @@
 //  LootPuzzleUITests.swift
 //  LootPuzzleUITests
 //
-//  Created by Andrew Haentjens on 10/12/2017.
+//  Created by Andrew Haentjens on 12/12/2017.
 //  Copyright © 2017 Andrew Haentjens. All rights reserved.
 //
 
