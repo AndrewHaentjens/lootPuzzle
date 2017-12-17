@@ -15,6 +15,7 @@
 		3B0E97AC1FE039E9005D2B5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B0E97AA1FE039E9005D2B5A /* LaunchScreen.storyboard */; };
 		3B0E97B71FE039EA005D2B5A /* LootPuzzleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E97B61FE039EA005D2B5A /* LootPuzzleTests.swift */; };
 		3B0E97C21FE039EA005D2B5A /* LootPuzzleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0E97C11FE039EA005D2B5A /* LootPuzzleUITests.swift */; };
+		3BA887CC1FE6ACDB001285B4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA887CB1FE6ACDB001285B4 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		3B0E97BD1FE039EA005D2B5A /* LootPuzzleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LootPuzzleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B0E97C11FE039EA005D2B5A /* LootPuzzleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LootPuzzleUITests.swift; sourceTree = "<group>"; };
 		3B0E97C31FE039EA005D2B5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3BA887CB1FE6ACDB001285B4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		3B0E979A1FE039E9005D2B5A /* LootPuzzle */ = {
 			isa = PBXGroup;
 			children = (
+				3BA887CA1FE6ACC0001285B4 /* Extensions */,
 				3B0E979B1FE039E9005D2B5A /* AppDelegate.swift */,
 				3B0E97A11FE039E9005D2B5A /* GameScene.swift */,
 				3B0E97A31FE039E9005D2B5A /* GameViewController.swift */,
@@ -126,6 +129,14 @@
 				3B0E97C31FE039EA005D2B5A /* Info.plist */,
 			);
 			path = LootPuzzleUITests;
+			sourceTree = "<group>";
+		};
+		3BA887CA1FE6ACC0001285B4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3BA887CB1FE6ACDB001285B4 /* Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +276,7 @@
 				3B0E97A21FE039E9005D2B5A /* GameScene.swift in Sources */,
 				3B0E97A41FE039E9005D2B5A /* GameViewController.swift in Sources */,
 				3B0E979C1FE039E9005D2B5A /* AppDelegate.swift in Sources */,
+				3BA887CC1FE6ACDB001285B4 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
