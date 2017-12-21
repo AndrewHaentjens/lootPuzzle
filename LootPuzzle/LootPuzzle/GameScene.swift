@@ -9,6 +9,10 @@
 import SpriteKit
 import GameplayKit
 
+enum PhysicsBodyType {
+    case target, indicator, parent
+}
+
 class GameScene: SKScene {
     
     let indicatorCategory: UInt32 = 0x1 << 1
@@ -45,77 +49,21 @@ class GameScene: SKScene {
         let lock = createCircle(position: centerPoint)
         addChild(lock)
         
-        let lockRadius = lock.frame.width / 2
-        
         invisibleParent.position = CGPoint(x: frame.midX, y: frame.midY)
         addChild(invisibleParent)
         
-        // create targets
-        // TODO: user pythagoras to determine the distance to edge => calculate x- and y-coordinates
-        let target1Center = CGPoint(x: centerPoint.x - lockRadius, y: centerPoint.y)
-        target1 = createCircle(position: target1Center, radius: 10.0)
-        addChild(target1)
+        createTargets(lockRadius: lock.frame.width / 2, centerPoint: centerPoint)
         
-        let target2Center = CGPoint(x: centerPoint.x, y: centerPoint.y + lockRadius)
-        target2 = createCircle(position: target2Center, radius: 10.0)
-        addChild(target2)
+        target1.physicsBody = createPhysicsBody(type: .target)
+        target2.physicsBody = createPhysicsBody(type: .target)
+        target3.physicsBody = createPhysicsBody(type: .target)
+        target4.physicsBody = createPhysicsBody(type: .target)
         
-        let target3Center = CGPoint(x: centerPoint.x + lockRadius, y: centerPoint.y)
-        target3 = createCircle(position: target3Center, radius: 10.0)
-        addChild(target3)
-        
-        let target4Center = CGPoint(x: centerPoint.x, y: centerPoint.y - lockRadius)
-        target4 = createCircle(position: target4Center, radius: 10.0)
-        addChild(target4)
-        
-        let target1PhysicsBody = SKPhysicsBody(circleOfRadius: 10.0)
-        target1PhysicsBody.categoryBitMask = targetCategory
-        target1PhysicsBody.collisionBitMask = 0
-        target1PhysicsBody.contactTestBitMask = indicatorCategory
-        target1PhysicsBody.pinned = true
-        target1PhysicsBody.allowsRotation = false
-        
-        let target2PhysicsBody = SKPhysicsBody(circleOfRadius: 10.0)
-        target2PhysicsBody.categoryBitMask = targetCategory
-        target2PhysicsBody.collisionBitMask = 0
-        target2PhysicsBody.contactTestBitMask = indicatorCategory
-        target2PhysicsBody.pinned = true
-        target2PhysicsBody.allowsRotation = false
-        
-        let target3PhysicsBody = SKPhysicsBody(circleOfRadius: 10.0)
-        target3PhysicsBody.categoryBitMask = targetCategory
-        target3PhysicsBody.collisionBitMask = 0
-        target3PhysicsBody.contactTestBitMask = indicatorCategory
-        target3PhysicsBody.pinned = true
-        target3PhysicsBody.allowsRotation = false
-        
-        let target4PhysicsBody = SKPhysicsBody(circleOfRadius: 10.0)
-        target4PhysicsBody.categoryBitMask = targetCategory
-        target4PhysicsBody.collisionBitMask = 0
-        target4PhysicsBody.contactTestBitMask = indicatorCategory
-        target4PhysicsBody.pinned = true
-        target4PhysicsBody.allowsRotation = false
-        
-        let invisibleParentPhysicsBody = SKPhysicsBody(circleOfRadius: 10.0)
-        invisibleParentPhysicsBody.pinned = true
-        
-        let indicatorPhysicsBody = SKPhysicsBody(circleOfRadius: 20.0)
-        indicatorPhysicsBody.categoryBitMask = indicatorCategory
-        indicatorPhysicsBody.collisionBitMask = 0
-        indicatorPhysicsBody.contactTestBitMask = targetCategory
-        //indicatorPhysicsBody.pinned = true
-        //indicatorPhysicsBody.allowsRotation = false
-        
-        target1.physicsBody = target1PhysicsBody
-        target2.physicsBody = target2PhysicsBody
-        target3.physicsBody = target3PhysicsBody
-        target4.physicsBody = target4PhysicsBody
-        
-        invisibleParent.physicsBody = invisibleParentPhysicsBody
+        invisibleParent.physicsBody = createPhysicsBody(type: .parent)
         
         // create indicator (basically the triangle)
         let indicator = createEquilateralTriangle()
-        indicator.physicsBody = indicatorPhysicsBody
+        indicator.physicsBody = createPhysicsBody(type: .indicator)
         indicator.zRotation = CGFloat.pi / 2 // set original rotation so that the corner points inwards towards the center of the circle
         indicator.position.x = (lock.frame.width / 2) + margin // set the offet to center of circle minus the radius and a margin
         
@@ -144,8 +92,54 @@ extension GameScene {
     
     @objc private func didTap(_ sender: UITapGestureRecognizer) {
         if madeContact {
-            
+            print("yay")
+        } else {
+            print("Nay")
         }
+    }
+    
+    private func createTargets(lockRadius: CGFloat, centerPoint: CGPoint) {
+
+        // create targets
+        // TODO: user pythagoras to determine the distance to edge => calculate x- and y-coordinates
+        let target1Center = CGPoint(x: centerPoint.x - lockRadius, y: centerPoint.y)
+        target1 = createCircle(position: target1Center, radius: 10.0)
+        addChild(target1)
+        
+        let target2Center = CGPoint(x: centerPoint.x, y: centerPoint.y + lockRadius)
+        target2 = createCircle(position: target2Center, radius: 10.0)
+        addChild(target2)
+        
+        let target3Center = CGPoint(x: centerPoint.x + lockRadius, y: centerPoint.y)
+        target3 = createCircle(position: target3Center, radius: 10.0)
+        addChild(target3)
+        
+        let target4Center = CGPoint(x: centerPoint.x, y: centerPoint.y - lockRadius)
+        target4 = createCircle(position: target4Center, radius: 10.0)
+        addChild(target4)
+    }
+    
+    private func createPhysicsBody(type: PhysicsBodyType) -> SKPhysicsBody {
+        
+        let physicsBody = SKPhysicsBody(circleOfRadius: 10.0)
+        
+        physicsBody.pinned = true
+        physicsBody.collisionBitMask = 0
+            
+        switch type {
+        case .target:
+            physicsBody.categoryBitMask = targetCategory
+            physicsBody.contactTestBitMask = indicatorCategory
+            physicsBody.allowsRotation = false
+        case .indicator:
+            physicsBody.categoryBitMask = indicatorCategory
+            physicsBody.contactTestBitMask = targetCategory
+            physicsBody.allowsRotation = false
+        case .parent:
+            break
+        }
+
+        return physicsBody
     }
     
     // MARK: - Create figures
