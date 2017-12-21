@@ -33,6 +33,9 @@ class GameScene: SKScene {
     
     var madeContact: Bool = false
     
+    var lockedInTargets = [SKShapeNode]()
+    var hitTarget: SKShapeNode?
+    
     override func didMove(to view: SKView) {
         
         physicsWorld.contactDelegate = self
@@ -75,7 +78,7 @@ class GameScene: SKScene {
         scene?.physicsWorld.add(pinJoint)
         scene?.physicsWorld.gravity = .zero
         
-        runRotationFor(node: invisibleParent, duration: 2)
+        runRotationFor(node: invisibleParent, duration: 3)
         
     }
 }
@@ -92,7 +95,34 @@ extension GameScene {
     
     @objc private func didTap(_ sender: UITapGestureRecognizer) {
         if madeContact {
-            print("yay")
+            
+            guard let hitTarget = hitTarget else { return }
+            
+            switch hitTarget {
+            case target1:
+                target1.fillColor = .green
+                if !lockedInTargets.contains(target1) {
+                    lockedInTargets.append(target1)
+                }
+            case target2:
+                target2.fillColor = .green
+                if !lockedInTargets.contains(target2) {
+                    lockedInTargets.append(target2)
+                }
+            case target3:
+                target3.fillColor = .green
+                if !lockedInTargets.contains(target3) {
+                    lockedInTargets.append(target3)
+                }
+            case target4:
+                target4.fillColor = .green
+                if !lockedInTargets.contains(target4) {
+                    lockedInTargets.append(target4)
+                }
+            default:
+                break
+            }
+            
         } else {
             print("Nay")
         }
@@ -104,18 +134,22 @@ extension GameScene {
         // TODO: user pythagoras to determine the distance to edge => calculate x- and y-coordinates
         let target1Center = CGPoint(x: centerPoint.x - lockRadius, y: centerPoint.y)
         target1 = createCircle(position: target1Center, radius: 10.0)
+        target1.name = "target1"
         addChild(target1)
         
         let target2Center = CGPoint(x: centerPoint.x, y: centerPoint.y + lockRadius)
         target2 = createCircle(position: target2Center, radius: 10.0)
+        target2.name = "target2"
         addChild(target2)
         
         let target3Center = CGPoint(x: centerPoint.x + lockRadius, y: centerPoint.y)
         target3 = createCircle(position: target3Center, radius: 10.0)
+        target3.name = "target3"
         addChild(target3)
         
         let target4Center = CGPoint(x: centerPoint.x, y: centerPoint.y - lockRadius)
         target4 = createCircle(position: target4Center, radius: 10.0)
+        target4.name = "target4"
         addChild(target4)
     }
     
@@ -171,7 +205,7 @@ extension GameScene {
         var points = [
             CGPoint(x: triangleLength / 2.0, y: -cSide / 2.0),   // right under point
             CGPoint(x: -triangleLength / 2.0, y: -cSide / 2.0),  // left under point
-            CGPoint(x: 0.0, y: cSide / 2.0),                              // top point
+            CGPoint(x: 0.0, y: cSide / 2.0),                     // top point
             CGPoint(x: triangleLength / 2.0, y: -cSide / 2.0)    // right under point again
         ]
         
@@ -209,6 +243,7 @@ extension GameScene: SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         madeContact = true
+        hitTarget = contact.bodyA.node as? SKShapeNode
         
         if contact.bodyA.node == target1 || contact.bodyB.node == target1 {
             target1.fillColor = .green
@@ -222,7 +257,6 @@ extension GameScene: SKPhysicsContactDelegate {
             target3.fillColor = .green
         }
         
-        
         if contact.bodyA.node == target4 || contact.bodyB.node == target4 {
             target4.fillColor = .green
         }
@@ -230,11 +264,24 @@ extension GameScene: SKPhysicsContactDelegate {
     
     func didEnd(_ contact: SKPhysicsContact) {
         madeContact = false
+        hitTarget = nil
         
-        target1.fillColor = .orange
-        target2.fillColor = .orange
-        target3.fillColor = .orange
-        target4.fillColor = .orange
+        
+        if !lockedInTargets.contains(target1) {
+            target1.fillColor = .orange
+        }
+        
+        if !lockedInTargets.contains(target2) {
+            target2.fillColor = .orange
+        }
+        
+        if !lockedInTargets.contains(target3) {
+            target3.fillColor = .orange
+        }
+        
+        if !lockedInTargets.contains(target4) {
+            target4.fillColor = .orange
+        }
     }
     
 }
